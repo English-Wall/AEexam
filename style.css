@@ -1,0 +1,177 @@
+/* --- 基本樣式重設與設定 --- */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100vh; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: #ffffff;
+    color: #333;
+}
+.hidden { display: none !important; }
+
+/* --- 1. 遊戲指示畫面 --- */
+#instructions-screen {
+    display: flex; justify-content: center; align-items: center;
+    text-align: center; height: 100vh; padding: 20px;
+}
+.instructions-content h1 { font-size: 2.2em; margin-bottom: 20px; }
+.instructions-content p { font-size: 1.1em; color: #555; margin-bottom: 20px; }
+.rules-list { list-style: none; margin: 0 auto 20px; padding: 15px; background-color: #f7f7f7; border-radius: 8px; max-width: 450px; }
+.rules-list li { margin-bottom: 10px; font-size: 1.1em; }
+#start-btn {
+    background-color: #000; color: #fff; border: none; padding: 15px 40px;
+    font-size: 1.2em; font-weight: bold; border-radius: 8px; cursor: pointer; transition: transform 0.2s;
+}
+#start-btn:hover { transform: scale(1.05); }
+
+/* --- 2. 遊戲主容器 (改為上下結構) --- */
+#game-container {
+    display: flex;
+    flex-direction: column; /* 重要：改為垂直佈局 */
+    height: 100%;
+    width: 100%;
+    padding-bottom: 40px;
+}
+
+/* 新增：頂部資訊欄樣式 */
+.top-bar {
+    width: 100%;
+    background-color: #000;
+    color: #fff;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 15px 10px;
+    font-size: 1em;
+    font-weight: bold;
+    flex-shrink: 0; /* 防止被壓縮 */
+}
+.top-bar div span {
+    color: #ffd700; /* 金色高亮 */
+    margin-left: 5px;
+}
+@media (max-width: 480px) {
+    .top-bar { font-size: 0.8em; padding: 12px 5px; }
+}
+
+/* 主內容區填滿剩餘空間 */
+.main-content {
+    flex-grow: 1; /* 重要：佔滿剩餘高度 */
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    overflow-y: auto; /* 內容過長時滾動 */
+    background-color: #f4f4f9;
+}
+
+#game-screen { width: 100%; max-width: 700px; text-align: center; }
+.question-frame {
+    background-color: #fff; border: 2px solid #000;
+    padding: 30px; margin: 0 0 20px 0; border-radius: 8px;
+}
+#question-text { font-size: 1.6em; line-height: 1.5; word-wrap: break-word; }
+
+/* 回饋訊息樣式 */
+#feedback-container { margin: 20px 0; height: 35px; }
+.feedback-text { color: #27ae60; font-size: 1.6em; font-weight: bold; }
+
+/* 選項樣式 */
+.options-container { display: grid; grid-template-columns: 1fr; gap: 15px; }
+.option {
+    border: none; padding: 18px; font-size: 1.3em;
+    font-weight: 500; border-radius: 10px; cursor: pointer; transition: all 0.3s;
+}
+.option:hover { transform: translateY(-4px); }
+.option:nth-child(1) { background-color: #FFDAB9; color: #333333; } /* 粉橘色 */
+.option:nth-child(2) { background-color: #B6D7F6; color: #333333; } /* 藍 */
+.option:nth-child(3) { background-color: #FFFFB5; color: #333333; } /* 黃 */
+.option.correct { background-color: #2ecc71 !important; color: white !important; transform: scale(1.05); }
+.option.incorrect { background-color: #f0f0f0 !important; color: #aaa !important; opacity: 0.7; }
+
+/* --- 3. 恭喜畫面 --- */
+#congrats-screen {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    display: flex; justify-content: center; align-items: center; background-color: rgba(0,0,0,0.7);
+}
+#congrats-video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1; }
+.congrats-text h1 { font-size: 3.5em; color: #fff; text-shadow: 0 0 15px rgba(0,0,0,0.8); text-align: center; }
+
+
+/* --- RWD (Responsive Web Design) for Mobile Devices --- */
+/* 當螢幕寬度小於等於 768px 時，套用以下樣式 */
+@media (max-width: 768px) {
+
+    /* 縮小開始畫面的標題和規則文字 */
+    .instructions-content h1 {
+        font-size: 1.8em;
+    }
+    .rules-list li, .instructions-content p {
+        font-size: 1em;
+    }
+
+    /* 縮小頂部資訊欄的左右邊距，爭取更多空間 */
+    .top-bar {
+        padding: 12px 5px;
+    }
+
+    /* 減少遊戲主內容區的邊距 */
+    .main-content {
+        padding: 15px;
+    }
+
+    /* 減少問題框的邊距 */
+    .question-frame {
+        padding: 16px;
+    }
+
+    /* 主要調整：縮小題目區的字體 
+    */
+    #question-text {
+        font-size: 1.1em; /* 從 1.6em 縮小 */
+    }
+
+    /* 縮小 Correct! 回饋訊息的字體 */
+    .feedback-text {
+        font-size: 1.4em;
+    }
+
+    /* 主要調整：縮小選項的字體和內邊距 
+    */
+    .option {
+        font-size: 1em; /* 從 1.3em 縮小 */
+        padding: 12px;    /* 從 18px 減少 */
+    }
+
+    /* 縮小結束畫面的標題 */
+    .congrats-text h1 {
+        font-size: 2.5em;
+    }
+}
+
+    #footer-link {
+        position: fixed;
+        bottom: 10px;
+        width: 100%;
+        text-align: center;
+        z-index: 9999;
+        pointer-events: none;
+    }
+    
+    #footer-link a {
+        font-size: 0.8em;
+        color: #aaa;
+        text-decoration: underline;
+        background: none;
+        border: none;
+        pointer-events: auto;
+    }
+
+
+    #confetti-canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 9999;
+    }
